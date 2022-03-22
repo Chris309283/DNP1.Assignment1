@@ -1,9 +1,17 @@
 
+using BlazorUI.Authentication;
+using BlazorUI.Impls;
+using BlazorUI.Services;
+using Microsoft.AspNetCore.Components.Authorization;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthenticationStateProvider>();
+builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
+builder.Services.AddScoped<IUserService, InMemoryUserService>();
 
 
 var app = builder.Build();
