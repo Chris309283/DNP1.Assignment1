@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Text.Json;
-using BlazorUI.Services;
+using Contracts.Services;
 using Entities.Models;
 using Microsoft.JSInterop;
 
@@ -79,7 +79,7 @@ public class AuthServiceImpl : IAuthService
         return new ClaimsPrincipal();
     }
 
-    private async Task CacheUserAsync(User user)
+    private async Task CacheUserAsync(User? user)
     {
         string serialisedData = JsonSerializer.Serialize(user);
         await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);
@@ -89,12 +89,12 @@ public class AuthServiceImpl : IAuthService
     {
         await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", "");
     }
-    private static ClaimsIdentity ConvertUserToClaimsIdentity(User? user)
+    private static ClaimsIdentity ConvertUserToClaimsIdentity(User user)
     {
-        List<Claim> claims = new();
+        List<Claim> claims = new()
         {
-            new Claim(ClaimTypes.Name, user.UserName);
-        }
+            new Claim(ClaimTypes.Name, user.UserName),
+        };
         return new ClaimsIdentity(claims,"apiauth_type");
     }
 }

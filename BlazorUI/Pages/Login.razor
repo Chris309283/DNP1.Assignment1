@@ -4,29 +4,37 @@
 @inject NavigationManager navMgr
 
 
-
-    
-        <div class="col-xl-4 d-flex p-3">
-            <RadzenCard Style="width: 100%;">
-                <h2 class="mb-4">Please login</h2>
-                <RadzenTemplateForm Data=@("SimpleLogin")>
-                    <RadzenLogin AllowRegister="false" AllowResetPassword="false" Login=@(OnLogin) />
-                </RadzenTemplateForm>
-            </RadzenCard>
-        </div>
 <AuthorizeView>
+    <NotAuthorized>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-10 col-xl-5 main box">
+                    <RadzenCard>
+                        <h2 class="mb-4">Please login</h2>
+                        <RadzenTemplateForm Context="buttonCtx" Data=@("SimpleLogin")>
+                            <RadzenLogin AllowRegister="false" AllowResetPassword="false" Login=@(OnLogin)/>
+                            <p>@errorLabel</p>
+                        </RadzenTemplateForm>
+                    </RadzenCard>
+                </div>
+            </div>
+        </div>
+
+    </NotAuthorized>
     <Authorized>
         <div class="card">
-            <h3>Hello, @context.User.Identity.Name</h3>
+            <h3>Hello, @context.User.Identity!.Name</h3>
         </div>
     </Authorized>
 </AuthorizeView>
 
 
 @code {
+    private string? errorLabel;
 
     private async Task OnLogin(LoginArgs args)
     {
+        errorLabel = "";
         try
         {
             await authService.LoginAsync(args.Username, args.Password);
@@ -34,9 +42,8 @@
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            errorLabel = $"Error: {e.Message}";
         }
     }
-  
+
 }

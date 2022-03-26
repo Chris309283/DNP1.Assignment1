@@ -1,4 +1,5 @@
 ﻿using System.Security.Claims;
+using Contracts.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 
 namespace BlazorUI.Authentication;

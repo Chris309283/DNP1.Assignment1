@@ -1,4 +1,5 @@
-﻿@using BlazorUI.Authentication
+﻿@using Contracts.Services
+@using BlazorUI.Authentication
 @inject NavigationManager navMgr
 @inject IAuthService authService
 
@@ -35,8 +36,9 @@
         navMgr.NavigateTo("/Login");
     }
 
-    private async void SignUpButtonClicked()
+    private void SignUpButtonClicked()
     {
+        navMgr.NavigateTo("/SignUp");
     }
 
     private async void LogOutButtonClicked()

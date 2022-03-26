@@ -1,0 +1,21 @@
+{
+  "Users": [
+    {
+      "UserName": "Test",
+      "Password": "Test123"
+    },
+    {
+      "UserName": "Test1",
+      "Password": "Test123"
+    },
+    {
+      "UserName": "hello",
+      "Password": "Test123"
+    },
+    {
+      "UserName": "Vlad",
+      "Password": "1234"
+    }
+  ],
+  "Posts": []
+}
