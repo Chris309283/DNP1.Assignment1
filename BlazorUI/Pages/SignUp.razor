@@ -1,8 +1,10 @@
 ﻿@page "/SignUp"
 @using Entities.Models
 @using Contracts.Services
+@using BlazorUI.Authentication
 @inject NavigationManager navMgr
 @inject IUserService userService
+@inject IAuthService authService
 
 
 <AuthorizeView>
@@ -36,10 +38,10 @@
                                     <RadzenPassword Style="width: 100%" Name="RepeatPassword" @bind-value="rePassword"></RadzenPassword>
                                 </div>
                             </div>
-                            <div>
+                            <div class="align-items d-flex">
                                 <RadzenButton ButtonType="ButtonType.Submit" Text="Confirm"></RadzenButton>
-                                <p></p>
-                            </div>
+                                <p class="error-label m-auto">@errorLabel</p>
+                            </div> 
                         </RadzenFieldset>
                     </RadzenTemplateForm>
                 </div>
@@ -49,48 +51,28 @@
 </AuthorizeView>
 
 @code {
-
-    [CascadingParameter]
-    public Task<AuthenticationState> AuthState { get; set; } = null!;
-
-
-    /*string userName;
-    string password;
-    
-
-    Boolean loggedIn; 
-    
-    protected override async Task OnInitializedAsync()
-    {
-        AuthenticationState authState = await AuthState;
-        ClaimsPrincipal user = authState.User;
-        if (user.Identity == null) return;;
-        
-        userName = user.Identity!.Name!;
-        password = user.Claims.First(c => "pwd".Equals(c.Type)).Value;
-        rePassword = user.Claims.First(c => "pwd".Equals(c.Type)).Value;
-        
-        loggedIn = true;
-    }*/
-
     readonly User user = new();
     string rePassword = String.Empty;
+    private string errorLabel = String.Empty;
 
     async Task Submit(User arg)
     {
-        try
+        if (arg.Password != null && arg.Password.Equals(rePassword))
         {
-            await userService.AddUserAsync(arg);
+            try
+            {
+                await userService.AddUserAsync(arg);
+                navMgr.NavigateTo("/");
+                await authService.LoginAsync(arg.UserName, arg.Password);
+            }
+            catch (Exception e)
+            {
+                errorLabel = e.Message;
+            }
         }
-        catch (Exception e)
+        else
         {
-            Console.WriteLine(e);
-            throw;
+            errorLabel = "Passwords don't match";
         }
     }
-
-
-
-
-
 }

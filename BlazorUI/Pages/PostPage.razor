@@ -1,0 +1,118 @@
+﻿@page "/PostPage/{postId}"
+@using Microsoft.AspNetCore.Components
+@using Entities.Models
+@using System.Security.Claims
+@using Contracts.Services
+@inject IPostService postService
+@inject IUserService userService
+@inject NavigationManager navMgr
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-10 col-xl-10 main box">
+            <RadzenCard>
+                <h4 class="mt-2">@post.Header</h4>
+                <div class="col-12">
+                    <RadzenHtmlEditor @bind-Value=@post.Body style="height: 50%; margin-bottom: 1rem;" Disabled="true">
+                        <RadzenHtmlEditorRemoveFormat/>
+                    </RadzenHtmlEditor>
+                </div>
+                <div class="row">
+                    <div class="d-flex">
+                        <div class="d-flex">
+                            <img class="m-1" src="img/9055695_bxs_upvote_icon.png" width="20" height="20" @onclick="UpVote" alt=""/>
+                            <h3>@post!.GetVoteValue()</h3>
+                            <img class="m-1" src="img/9055470_bxs_downvote_icon.png" width="20" height="20" @onclick="DownVote" alt=""/>
+                        </div>
+                    </div>
+                    <div class="justify-content-end">
+                        <h5>
+                            <i>
+                                Post By:
+                            </i>
+                            @post.WrittenBy?.UserName
+                        </h5>
+                    </div>
+                </div>
+                <h5 class="justify-content-center d-flex">
+                    <u>
+                        <i>Comments</i>
+                    </u>
+                </h5>
+                <div>
+                    <div>
+                        <div>
+                            @foreach (Comment comment in post.Comments)
+                            {
+                              <CommentComp Comment="comment"/>   
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="container">
+                    <div class="mt-2">
+                        <div>
+                            <RadzenTemplateForm Context="buttonCtx" Data="@Comment" Submit="@(async (Comment args) => { await Submit(args); })">
+                                <RadzenCard>
+                                    <RadzenTextArea Placeholder="Add a comment here..." @bind-Value="@Comment.Body" Class="w-100"  Disabled="@(!isLoggedIn)"/>
+                                    <RadzenButton ButtonType="ButtonType.Submit" Text="Comment" class="mt-2"></RadzenButton>
+                                </RadzenCard>
+                            </RadzenTemplateForm>
+                        </div>
+                    </div>
+                </div>
+            </RadzenCard>
+        </div>
+    </div>
+</div>
+
+@code {
+    private ClaimsPrincipal? user;
+    private static User? myUser;
+    private Post? post;
+    private bool isLoggedIn;
+    
+    [Parameter]
+    public string? PostId { get; set; }
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
+
+   
+
+    public readonly Comment Comment = new()
+    {
+        WrittenBy = myUser
+    };
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthState;
+        user = authState.User;
+        isLoggedIn = user.Identity != null;
+        post = await postService.GetPostAsync(PostId);
+        if (!isLoggedIn) return;
+        myUser = await userService.GetUserAsync(user.Identity?.Name);
+    }
+
+    void UpVote()
+    {
+   
+    }
+
+    private void DownVote()
+    {
+    
+    }
+
+    private async Task Submit(Comment args)
+    {
+        if (args.Body != null && !args.Body.Equals(""))
+        {
+            await postService.AddComment(Comment, PostId);
+            navMgr.NavigateTo($"/PostPage/{PostId}");
+        }
+    }
+
+}

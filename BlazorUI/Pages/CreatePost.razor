@@ -1,0 +1,88 @@
+﻿@page "/CreatePost"
+@using Entities.Models
+@using Microsoft.AspNetCore.Components
+@using System.Security.Claims
+@using Contracts.Services
+@inject IPostService postService
+@inject IUserService userService
+@inject NavigationManager navMgr
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-10 col-xl-8 main box">
+                    <RadzenTemplateForm Context="buttonCtx" Data="@post" Submit="@(async (Post args) => { await Submit(args); })">
+                        <RadzenCard>
+                            <div class="row">
+                                <div class="col-2 justify-content-center d-flex">
+                                    <RadzenLabel Text="Title"></RadzenLabel>
+                                </div>
+                                <div class="col-10 justify-content-lg-start">
+                                    <RadzenTextBox Style="width: 97.5%" @bind-value="post.Header"></RadzenTextBox>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <RadzenHtmlEditor PlaceHolder="Text (optional)" @bind-Value=@post.Body style="height: 500px; margin-bottom: 1rem;"/>
+                            </div>
+                            <div class="justify-content-center d-flex">
+                                <div class="m-2">
+                                    <RadzenButton ButtonType="ButtonType.Submit" Text="Confirm"></RadzenButton>
+                                </div>
+                                <div class="m-2">
+                                    <RadzenButton Click="@OnCancelButtonClicked" Text="Cancel"></RadzenButton>
+                                </div>
+                            </div>
+                        </RadzenCard>
+                    </RadzenTemplateForm>
+                </div>
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        <div>
+            <h1>You Must be logged in to create a post noob.</h1>
+        </div>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
+
+    private ClaimsPrincipal? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthState;
+        user = authState.User;
+    }
+
+    readonly Post post = new();
+
+
+    private async Task Submit(Post args)
+    {
+        try
+        {
+            User? user1 = await userService.GetUserAsync(user?.Identity?.Name);
+            Post post1 = new Post(args.Header, args.Body, user1);
+            await postService.AddPostAsync(post1);
+            navMgr.NavigateTo("/");
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+    }
+
+
+    private void OnCancelButtonClicked()
+    {
+        navMgr.NavigateTo("/");
+    }
+
+}

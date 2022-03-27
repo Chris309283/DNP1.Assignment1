@@ -18,7 +18,7 @@ public class AuthServiceImpl : IAuthService
         this.jsRuntime = jsRuntime;
     }
 
-    public async Task LoginAsync(string username, string password)
+    public async Task LoginAsync(string? username, string password)
     {
         User? user = await userService.GetUserAsync(username); // Get user from database
 
@@ -93,7 +93,7 @@ public class AuthServiceImpl : IAuthService
     {
         List<Claim> claims = new()
         {
-            new Claim(ClaimTypes.Name, user.UserName),
+            new Claim(ClaimTypes.Name, user.UserName ?? "Unknown"),
         };
         return new ClaimsIdentity(claims,"apiauth_type");
     }

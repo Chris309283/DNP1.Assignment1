@@ -18,9 +18,9 @@ public class JsonUserRepo : IUserRepo
         return Task.FromResult(jsonContext.Forum.Users);
     }
 
-    public Task<User?> GetUserAsync(string username)
+    public Task<User?> GetUserAsync(string? username)
     {
-        User? user = jsonContext.Forum.Users.FirstOrDefault(x => username.Equals(x.UserName));
+        User? user = jsonContext.Forum.Users.FirstOrDefault(x => username != null && username.Equals(x.UserName));
         return Task.FromResult(user);
     }
 
@@ -48,8 +48,8 @@ public class JsonUserRepo : IUserRepo
         await jsonContext.SaveChangesAsync();
     }
 
-    private Task<bool> UsernameTaken(string username)
+    private Task<bool> UsernameTaken(string? username)
     {
-        return Task.FromResult(jsonContext.Forum.Users.Any(u => username.Equals(u.UserName)));
+        return Task.FromResult(jsonContext.Forum.Users.Any(u => username != null && username.Equals(u.UserName)));
     }
 }

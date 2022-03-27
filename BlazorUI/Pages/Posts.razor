@@ -1,0 +1,23 @@
+﻿@using Entities.Models
+@using Contracts.Services
+@inject IPostService postService
+
+<div>
+    <div>
+        @foreach (Post post in posts)
+        {
+            <PostComp Post="post"/>
+        }
+    </div>
+</div>
+
+@code {
+    private ICollection<Post> posts = null!;
+
+    protected override async Task OnInitializedAsync()
+    {
+        posts = await postService.GetPostsAsync();
+        await base.OnInitializedAsync();
+    }
+
+}

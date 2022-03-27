@@ -3,19 +3,35 @@
     {
       "UserName": "Test",
       "Password": "Test123"
-    },
-    {
-      "UserName": "Test1",
-      "Password": "Test123"
-    },
-    {
-      "UserName": "hello",
-      "Password": "Test123"
-    },
-    {
-      "UserName": "Vlad",
-      "Password": "1234"
     }
   ],
-  "Posts": []
+  "Posts": [
+    {
+      "PostId": "7903de6b990c470f8d5a53aa9491e598",
+      "Header": "fasdf",
+      "Body": "dfsadf",
+      "Votes": [],
+      "Comments": [
+        {
+          "Body": "fdassdfa",
+          "ParentComment": null,
+          "Votes": [],
+          "WrittenBy": null
+        },
+        {
+          "Body": "m,. m,m,n",
+          "ParentComment": null,
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        }
+      ],
+      "WrittenBy": {
+        "UserName": "Test",
+        "Password": "Test123"
+      }
+    }
+  ]
 }

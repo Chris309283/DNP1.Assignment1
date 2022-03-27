@@ -17,6 +17,13 @@ builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthenticationStat
 builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserRepo, JsonUserRepo>();
+builder.Services.AddScoped<IPostService, PostService>();
+builder.Services.AddScoped<IPostRepo, JsonPostRepo>();
+
+builder.Services.AddScoped<DialogService>();
+builder.Services.AddScoped<NotificationService>();
+builder.Services.AddScoped<TooltipService>();
+builder.Services.AddScoped<ContextMenuService>();
 
 var app = builder.Build();
 

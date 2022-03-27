@@ -1,0 +1,88 @@
+﻿@using Entities.Models
+@using Contracts.Services
+@using System.Security.Claims
+@inject NavigationManager navMgr
+@inject IPostService postService
+@inject IUserService userService
+
+<div class="container mt-3">
+    <div class="row justify-content-center">
+        <div class="col-10 col-xl-10 main box">
+            <RadzenCard>
+                <h4 class="mt-2">@Post?.Header</h4>
+                <div class="col-12">
+                    <RadzenHtmlEditor @bind-Value=@Post.Body style="height: 50%; margin-bottom: 1rem;" Disabled="true">
+                        <RadzenHtmlEditorRemoveFormat/>
+                    </RadzenHtmlEditor>
+                </div>
+                <div class="row">
+                    <div class="d-flex">
+                        <div class="d-flex">
+                            <img class="m-1" src="img/9055695_bxs_upvote_icon.png" width="20" height="20" @onclick="UpVote" alt=""/>
+                            <h3>@Post!.GetVoteValue()</h3>
+                            <img class="m-1" src="img/9055470_bxs_downvote_icon.png" width="20" height="20" @onclick="DownVote" alt=""/> 
+                        </div>
+                        <div class="col-3 d-flex" onclick=@(() => GoToPost(Post.PostId))>
+                            <h3 class="oi oi-comment-square mt-1"></h3>
+                            <h3 class="ml-1">@Post.Comments.Count</h3>
+                        </div>
+                    </div>
+                    <div class="justify-content-end">
+                        <h5>
+                            <i>
+                                Post By:
+                            </i>
+                            @Post.WrittenBy?.UserName
+                        </h5>
+                    </div>
+                </div>
+            </RadzenCard>
+        </div>
+    </div>
+</div>
+
+@code {
+    [Parameter]
+    public Post? Post { get; set; }
+    
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
+
+    private ClaimsPrincipal? user;
+    private User? myUser;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthState;
+        user = authState.User;
+        myUser = await userService.GetUserAsync(user?.Identity?.Name);
+    }
+
+    async Task UpVote()
+    {
+        Console.WriteLine("Up Vote");
+        try
+        {
+            if (Post != null) await postService.AddVote(new Vote(1, myUser), Post.PostId);
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            throw;
+        }
+       
+    }
+
+    private void DownVote()
+    {
+        Console.WriteLine("Down Vote");
+        Post?.Votes.Add(new Vote(-1));
+    }
+
+    private void GoToPost(string? postId)
+    {
+        navMgr.NavigateTo($"/PostPage/{postId}");
+    }
+
+}

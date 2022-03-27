@@ -1,0 +1,41 @@
+﻿@using Entities.Models
+<div class="container">
+    <div class="content m-0 p-0 mb-2">
+        <RadzenCard>
+            <div>
+                <p class="">
+                    <i>
+                        <b>@Comment?.WrittenBy?.UserName</b>
+                    </i>
+                </p>
+                <p>@Comment?.Body</p>
+            </div>
+            <div class="row">
+                <div class="d-flex">
+                    <div class="d-flex">
+                        <img class="m-1" src="img/9055695_bxs_upvote_icon.png" width="20" height="20" @onclick="UpVote" alt=""/>
+                        <h3>6</h3>
+                        <img class="m-1" src="img/9055470_bxs_downvote_icon.png" width="20" height="20" @onclick="DownVote" alt=""/>
+                    </div>
+                </div>
+            </div>
+        </RadzenCard>
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public Comment? Comment { get; set; }
+
+    private void UpVote()
+    {
+        throw new NotImplementedException();
+    }
+
+    private void DownVote()
+    {
+        throw new NotImplementedException();
+    }
+
+}

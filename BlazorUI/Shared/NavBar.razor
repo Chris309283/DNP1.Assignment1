@@ -17,15 +17,14 @@
     <div>
         <AuthorizeView>
             <Authorized>
+                <RadzenButton Click="@CreatePostButtonClicked" Image="img/plus.png" Text="Create Post" ButtonStyle="ButtonStyle.Light"></RadzenButton>
                 <RadzenButton Click="@LogOutButtonClicked" Text="Log Out"></RadzenButton>
             </Authorized>
             <NotAuthorized>
                 <RadzenButton Click="@LoginButtonClicked" Text="Log In"></RadzenButton>
                 <RadzenButton Click="@SignUpButtonClicked" Text="Sign Up"></RadzenButton>
             </NotAuthorized>
-
         </AuthorizeView>
-
     </div>
 </nav>
 
@@ -45,6 +44,11 @@
     {
         await authService.LogoutAsync();
         navMgr.NavigateTo("/");
+    }
+
+    private void CreatePostButtonClicked()
+    {
+        navMgr.NavigateTo("/CreatePost");
     }
 
 }

@@ -7,10 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <Folder Include="wwwroot\img" />
-    </ItemGroup>
-
-    <ItemGroup>
       <PackageReference Include="Radzen.Blazor" Version="3.17.1" />
     </ItemGroup>
 

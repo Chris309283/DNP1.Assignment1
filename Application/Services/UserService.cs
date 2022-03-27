@@ -18,7 +18,7 @@ public class UserService : IUserService
     {
         return await userRepo.GetAllUsersAsync();
     }
-    public async Task<User?> GetUserAsync(string username)
+    public async Task<User?> GetUserAsync(string? username)
     {
         return await userRepo.GetUserAsync(username);
     }
