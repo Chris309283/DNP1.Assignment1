@@ -4,7 +4,7 @@
 
 <div>
     <div>
-        @foreach (Post post in posts)
+        @foreach (var post in PostsCollection)
         {
             <PostComp Post="post"/>
         }
@@ -12,11 +12,11 @@
 </div>
 
 @code {
-    private ICollection<Post> posts = null!;
+    private ICollection<Post>? PostsCollection { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        posts = await postService.GetPostsAsync();
+        PostsCollection = await postService.GetPostsAsync();
         await base.OnInitializedAsync();
     }
 

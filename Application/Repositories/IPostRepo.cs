@@ -4,7 +4,7 @@ namespace Application.Repositories;
 
 public interface IPostRepo
 {
-    Task<ICollection<Post>> GetPostsAsync();
+    Task<ICollection<Post>?> GetPostsAsync();
     Task<Post?> GetPostAsync(string? id);
     Task<Post> AddPostAsync(Post post);
     void AddComment(Comment comment, string? postId);

@@ -9,9 +9,9 @@
     <div class="row justify-content-center">
         <div class="col-10 col-xl-10 main box">
             <RadzenCard>
-                <h4 class="mt-2">@Post.Header</h4>
+                <h4 class="mt-2">@Post?.Header</h4>
                 <div class="col-12">
-                    <RadzenHtmlEditor @bind-Value=@Post.Body style="height: 50%; margin-bottom: 1rem;" Disabled="true">
+                    <RadzenHtmlEditor @bind-Value="@Post.Body" style="height: 50%; margin-bottom: 1rem;" Disabled="true">
                         <RadzenHtmlEditorRemoveFormat/>
                     </RadzenHtmlEditor>
                 </div>
@@ -19,10 +19,10 @@
                     <div class="d-flex">
                         <div class="d-flex">
                             <img class="m-1" src="img/9055695_bxs_upvote_icon.png" width="20" height="20" @onclick="UpVote" alt=""/>
-                            <h3>@Post.GetVoteValue()</h3>
+                            <h3>@Post!.GetVoteValue()</h3>
                             <img class="m-1" src="img/9055470_bxs_downvote_icon.png" width="20" height="20" @onclick="DownVote" alt=""/>
                         </div>
-                        <div class="col-3 d-flex" onclick=@(() => GoToPost(Post.PostId))>
+                        <div class="col-3 d-flex" onclick="@(() => GoToPost(Post.PostId))">
                             <h3 class="oi oi-comment-square mt-1"></h3>
                             <h3 class="ml-1">@Post.Comments.Count</h3>
                         </div>
@@ -47,7 +47,7 @@
     private string errorLabel = string.Empty;
 
     [Parameter]
-    public Post Post { get; set; }
+    public Post? Post { get; set; }
 
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
@@ -86,10 +86,10 @@
         if (isLoggedIn)
         {
             Console.WriteLine("Down Vote");
-            var currentUser = await userService.GetUserAsync(user.Identity.Name);
+            var currentUser = await userService.GetUserAsync(user?.Identity?.Name);
             try
             {
-                postService.AddVote(new Vote(-1, currentUser), Post.PostId);
+                postService.AddVote(new Vote(-1, currentUser), Post?.PostId);
             }
             catch (Exception e)
             {

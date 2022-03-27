@@ -13,7 +13,7 @@ public class PostService : IPostService
         this.postRepo = postRepo;
     }
 
-    public async Task<ICollection<Post>> GetPostsAsync()
+    public async Task<ICollection<Post>?> GetPostsAsync()
     {
         return await postRepo.GetPostsAsync();
     }

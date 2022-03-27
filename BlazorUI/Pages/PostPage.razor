@@ -13,7 +13,7 @@
             <RadzenCard>
                 <h4 class="mt-2">@post?.Header</h4>
                 <div class="col-12">
-                    <RadzenHtmlEditor @bind-Value=@post.Body style="height: 50%; margin-bottom: 1rem;" Disabled="true">
+                    <RadzenHtmlEditor @bind-Value="@post.Body" style="height: 50%; margin-bottom: 1rem;" Disabled="true">
                         <RadzenHtmlEditorRemoveFormat/>
                     </RadzenHtmlEditor>
                 </div>
@@ -21,7 +21,7 @@
                     <div class="d-flex">
                         <div class="d-flex">
                             <img class="m-1" src="img/9055695_bxs_upvote_icon.png" width="20" height="20" @onclick="UpVote" alt=""/>
-                            <h3>@post.GetVoteValue()</h3>
+                            <h3>@post!.GetVoteValue()</h3>
                             <img class="m-1" src="img/9055470_bxs_downvote_icon.png" width="20" height="20" @onclick="DownVote" alt=""/>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                             <i>
                                 Post By:
                             </i>
-                            @post.WrittenBy.UserName
+                            @post.WrittenBy?.UserName
                         </h5>
                     </div>
                 </div>
@@ -40,7 +40,7 @@
                     </u>
                 </h5>
                 <div>
-                    @foreach (Comment comment1 in post.Comments)
+                    @foreach (var comment1 in post.Comments)
                     {
                         <CommentComp Comment="comment1"/>
                     }
@@ -62,7 +62,6 @@
 
 @code {
     private ClaimsPrincipal? user;
-    private static User? myUser;
     private Post? post;
     private bool isLoggedIn;
 
@@ -78,14 +77,10 @@
         user = authState.User;
         isLoggedIn = user.Identity != null;
         post = await postService.GetPostAsync(PostId);
-        if (!isLoggedIn) return;
-        myUser = await userService.GetUserAsync(user.Identity?.Name);
     }
 
-    private readonly Comment comment = new()
-    {
-        WrittenBy = myUser
-    };
+    private readonly Comment comment = new();
+ 
 
     void UpVote()
     {
@@ -97,10 +92,11 @@
         
     }
 
-    private void Submit(Comment args)
+    private async Task Submit(Comment args)
     {
-        if (args.Body.Equals("")) return;
-        var newComment = new Comment(args.Body, args.WrittenBy);
+        if (args.Body is "") return;
+        var currentUser = await userService.GetUserAsync(user?.Identity?.Name);
+        var newComment = new Comment(args.Body, currentUser);
         postService.AddComment(newComment, PostId);
         navMgr.NavigateTo($"/PostPage/{PostId}");
         comment.Body = string.Empty;

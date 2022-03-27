@@ -13,7 +13,7 @@ public class JsonPostRepo : IPostRepo
         this.jsonContext = jsonContext;
     }
 
-    public async Task<ICollection<Post>> GetPostsAsync()
+    public async Task<ICollection<Post>?> GetPostsAsync()
     {
         return await Task.FromResult(jsonContext.Forum.Posts);
     }
@@ -40,7 +40,7 @@ public class JsonPostRepo : IPostRepo
     public async void AddVote(Vote vote, string? postId)
     {
         var post = GetPostAsync(postId).Result;
-        post.Votes.Add(vote);
+        post?.Votes.Add(vote);
         await jsonContext.SaveChangesAsync();
     }
 }
