@@ -20,7 +20,7 @@ public class JsonUserRepo : IUserRepo
 
     public Task<User?> GetUserAsync(string? username)
     {
-        User? user = jsonContext.Forum.Users.FirstOrDefault(x => username != null && username.Equals(x.UserName));
+        User? user = jsonContext.Forum.Users.FirstOrDefault(x => username.Equals(x.UserName));
         return Task.FromResult(user);
     }
 

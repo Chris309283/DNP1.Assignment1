@@ -7,25 +7,15 @@
   ],
   "Posts": [
     {
-      "PostId": "7903de6b990c470f8d5a53aa9491e598",
-      "Header": "fasdf",
-      "Body": "dfsadf",
+      "PostId": "0539f1ca5d194fd897566f72f9726812",
+      "Header": "dfassfd",
+      "Body": "fdsadf",
       "Votes": [],
       "Comments": [
         {
-          "Body": "fdassdfa",
-          "ParentComment": null,
+          "Body": "fdsadfa",
           "Votes": [],
           "WrittenBy": null
-        },
-        {
-          "Body": "m,. m,m,n",
-          "ParentComment": null,
-          "Votes": [],
-          "WrittenBy": {
-            "UserName": "Test",
-            "Password": "Test123"
-          }
         }
       ],
       "WrittenBy": {

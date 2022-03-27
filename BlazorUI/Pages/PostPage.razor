@@ -11,7 +11,7 @@
     <div class="row justify-content-center">
         <div class="col-10 col-xl-10 main box">
             <RadzenCard>
-                <h4 class="mt-2">@post.Header</h4>
+                <h4 class="mt-2">@post?.Header</h4>
                 <div class="col-12">
                     <RadzenHtmlEditor @bind-Value=@post.Body style="height: 50%; margin-bottom: 1rem;" Disabled="true">
                         <RadzenHtmlEditorRemoveFormat/>
@@ -21,7 +21,7 @@
                     <div class="d-flex">
                         <div class="d-flex">
                             <img class="m-1" src="img/9055695_bxs_upvote_icon.png" width="20" height="20" @onclick="UpVote" alt=""/>
-                            <h3>@post!.GetVoteValue()</h3>
+                            <h3>@post.GetVoteValue()</h3>
                             <img class="m-1" src="img/9055470_bxs_downvote_icon.png" width="20" height="20" @onclick="DownVote" alt=""/>
                         </div>
                     </div>
@@ -30,7 +30,7 @@
                             <i>
                                 Post By:
                             </i>
-                            @post.WrittenBy?.UserName
+                            @post.WrittenBy.UserName
                         </h5>
                     </div>
                 </div>
@@ -40,25 +40,19 @@
                     </u>
                 </h5>
                 <div>
-                    <div>
-                        <div>
-                            @foreach (Comment comment in post.Comments)
-                            {
-                              <CommentComp Comment="comment"/>   
-                            }
-                        </div>
-                    </div>
+                    @foreach (Comment comment1 in post.Comments)
+                    {
+                        <CommentComp Comment="comment1"/>
+                    }
                 </div>
                 <div class="container">
                     <div class="mt-2">
-                        <div>
-                            <RadzenTemplateForm Context="buttonCtx" Data="@Comment" Submit="@(async (Comment args) => { await Submit(args); })">
-                                <RadzenCard>
-                                    <RadzenTextArea Placeholder="Add a comment here..." @bind-Value="@Comment.Body" Class="w-100"  Disabled="@(!isLoggedIn)"/>
-                                    <RadzenButton ButtonType="ButtonType.Submit" Text="Comment" class="mt-2"></RadzenButton>
-                                </RadzenCard>
-                            </RadzenTemplateForm>
-                        </div>
+                        <RadzenTemplateForm Context="buttonCtx" Data="@comment" Submit="@((Comment args) => { Submit(args); })">
+                            <RadzenCard>
+                                <RadzenTextArea Placeholder="Add a comment here..." @bind-Value="@comment.Body" Class="w-100" Disabled="@(!isLoggedIn)"/>
+                                <RadzenButton ButtonType="ButtonType.Submit" Text="Comment" class="mt-2"></RadzenButton>
+                            </RadzenCard>
+                        </RadzenTemplateForm>
                     </div>
                 </div>
             </RadzenCard>
@@ -71,20 +65,12 @@
     private static User? myUser;
     private Post? post;
     private bool isLoggedIn;
-    
+
     [Parameter]
     public string? PostId { get; set; }
 
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
-
-
-   
-
-    public readonly Comment Comment = new()
-    {
-        WrittenBy = myUser
-    };
 
     protected override async Task OnInitializedAsync()
     {
@@ -96,23 +82,28 @@
         myUser = await userService.GetUserAsync(user.Identity?.Name);
     }
 
+    private readonly Comment comment = new()
+    {
+        WrittenBy = myUser
+    };
+
     void UpVote()
     {
-   
+        
     }
 
     private void DownVote()
     {
-    
+        
     }
 
-    private async Task Submit(Comment args)
+    private void Submit(Comment args)
     {
-        if (args.Body != null && !args.Body.Equals(""))
-        {
-            await postService.AddComment(Comment, PostId);
-            navMgr.NavigateTo($"/PostPage/{PostId}");
-        }
+        if (args.Body.Equals("")) return;
+        var newComment = new Comment(args.Body, args.WrittenBy);
+        postService.AddComment(newComment, PostId);
+        navMgr.NavigateTo($"/PostPage/{PostId}");
+        comment.Body = string.Empty;
     }
 
 }

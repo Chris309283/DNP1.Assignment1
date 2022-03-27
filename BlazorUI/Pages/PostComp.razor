@@ -9,7 +9,7 @@
     <div class="row justify-content-center">
         <div class="col-10 col-xl-10 main box">
             <RadzenCard>
-                <h4 class="mt-2">@Post?.Header</h4>
+                <h4 class="mt-2">@Post.Header</h4>
                 <div class="col-12">
                     <RadzenHtmlEditor @bind-Value=@Post.Body style="height: 50%; margin-bottom: 1rem;" Disabled="true">
                         <RadzenHtmlEditorRemoveFormat/>
@@ -19,8 +19,8 @@
                     <div class="d-flex">
                         <div class="d-flex">
                             <img class="m-1" src="img/9055695_bxs_upvote_icon.png" width="20" height="20" @onclick="UpVote" alt=""/>
-                            <h3>@Post!.GetVoteValue()</h3>
-                            <img class="m-1" src="img/9055470_bxs_downvote_icon.png" width="20" height="20" @onclick="DownVote" alt=""/> 
+                            <h3>@Post.GetVoteValue()</h3>
+                            <img class="m-1" src="img/9055470_bxs_downvote_icon.png" width="20" height="20" @onclick="DownVote" alt=""/>
                         </div>
                         <div class="col-3 d-flex" onclick=@(() => GoToPost(Post.PostId))>
                             <h3 class="oi oi-comment-square mt-1"></h3>
@@ -42,42 +42,65 @@
 </div>
 
 @code {
+    private ClaimsPrincipal? user;
+    private bool isLoggedIn;
+    private string errorLabel = string.Empty;
+
     [Parameter]
-    public Post? Post { get; set; }
-    
+    public Post Post { get; set; }
+
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
 
-
-    private ClaimsPrincipal? user;
-    private User? myUser;
-    
     protected override async Task OnInitializedAsync()
     {
-        AuthenticationState authState = await AuthState;
+        var authState = await AuthState;
         user = authState.User;
-        myUser = await userService.GetUserAsync(user?.Identity?.Name);
+        isLoggedIn = user.Identity != null;
     }
 
-    async Task UpVote()
+    private async Task UpVote()
     {
-        Console.WriteLine("Up Vote");
-        try
+        if (isLoggedIn)
         {
-            if (Post != null) await postService.AddVote(new Vote(1, myUser), Post.PostId);
+            Console.WriteLine("Up Vote");
+            var currentUser = await userService.GetUserAsync(user.Identity.Name);
+            try
+            {
+                postService.AddVote(new Vote(1, currentUser), Post.PostId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
         }
-        catch (Exception e)
+        else
         {
-            Console.WriteLine(e);
-            throw;
+            errorLabel = "Error: You must be logged in order to vote";
         }
-       
     }
 
-    private void DownVote()
+    private async Task DownVote()
     {
-        Console.WriteLine("Down Vote");
-        Post?.Votes.Add(new Vote(-1));
+        if (isLoggedIn)
+        {
+            Console.WriteLine("Down Vote");
+            var currentUser = await userService.GetUserAsync(user.Identity.Name);
+            try
+            {
+                postService.AddVote(new Vote(-1, currentUser), Post.PostId);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+        }
+        else
+        {
+            errorLabel = "Error: You must be logged in order to vote";
+        }
     }
 
     private void GoToPost(string? postId)

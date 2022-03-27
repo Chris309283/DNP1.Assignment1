@@ -13,14 +13,14 @@ public class JsonPostRepo : IPostRepo
         this.jsonContext = jsonContext;
     }
 
-    public Task<ICollection<Post>> GetPostsAsync()
+    public async Task<ICollection<Post>> GetPostsAsync()
     {
-        return Task.FromResult(jsonContext.Forum.Posts);
+        return await Task.FromResult(jsonContext.Forum.Posts);
     }
 
     public Task<Post?> GetPostAsync(string? postId)
     {
-        return Task.FromResult(jsonContext.Forum.Posts.FirstOrDefault(x => postId != null && postId.Equals(x.PostId)));
+        return Task.FromResult(jsonContext.Forum.Posts.FirstOrDefault(x =>postId != null && postId.Equals(x.PostId)));
     }
 
     public async Task<Post> AddPostAsync(Post post)
@@ -30,22 +30,17 @@ public class JsonPostRepo : IPostRepo
         return post;
     }
 
-    public async Task<Post?> AddComment(Comment comment, string? postId)
+    public async void AddComment(Comment comment, string? postId)
     {
-        Post? post = await GetPostAsync(postId);
+        var post = await GetPostAsync(postId);
         post?.Comments.Add(comment);
         await jsonContext.SaveChangesAsync();
-        return post;
     }
 
-    public async Task<Post?> AddVote(Vote vote, string postId)
+    public async void AddVote(Vote vote, string? postId)
     {
-        Post? oldPost = GetPostAsync(postId).Result;
-        if (oldPost != null)
-        {
-            oldPost.Votes.Add(vote);
-            await jsonContext.SaveChangesAsync(); 
-        }
-        return oldPost;
+        var post = GetPostAsync(postId).Result;
+        post.Votes.Add(vote);
+        await jsonContext.SaveChangesAsync();
     }
 }

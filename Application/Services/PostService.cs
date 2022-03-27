@@ -15,7 +15,7 @@ public class PostService : IPostService
 
     public async Task<ICollection<Post>> GetPostsAsync()
     {
-       return await postRepo.GetPostsAsync();
+        return await postRepo.GetPostsAsync();
     }
 
     public async Task<Post?> GetPostAsync(string? id)
@@ -28,13 +28,13 @@ public class PostService : IPostService
         return await postRepo.AddPostAsync(post);
     }
 
-    public async Task<Post?> AddComment(Comment comment, string? postId)
+    public void AddComment(Comment comment, string? postId)
     {
-        return await postRepo.AddComment(comment, postId);
+        postRepo.AddComment(comment, postId);
     }
 
-    public async Task<Post?> AddVote(Vote vote, string postId)
+    public void AddVote(Vote vote, string? postId)
     {
-        return await postRepo.AddVote(vote, postId);
+        postRepo.AddVote(vote, postId);
     }
 }

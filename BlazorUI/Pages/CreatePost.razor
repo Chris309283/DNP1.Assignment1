@@ -33,6 +33,9 @@
                                     <RadzenButton Click="@OnCancelButtonClicked" Text="Cancel"></RadzenButton>
                                 </div>
                             </div>
+                            <div>
+                                <h4>@errorLabel</h4>
+                            </div>
                         </RadzenCard>
                     </RadzenTemplateForm>
                 </div>
@@ -47,38 +50,33 @@
 </AuthorizeView>
 
 @code {
-
+    readonly Post post = new();
+    private User user = new();
+    private string errorLabel = string.Empty;
+    
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
-
-
-    private ClaimsPrincipal? user;
 
     protected override async Task OnInitializedAsync()
     {
         AuthenticationState authState = await AuthState;
-        user = authState.User;
+        ClaimsPrincipal claimsUser = authState.User;
+        if (claimsUser.Identity?.Name != null) user = await userService.GetUserAsync(claimsUser.Identity.Name);
     }
-
-    readonly Post post = new();
-
 
     private async Task Submit(Post args)
     {
         try
         {
-            User? user1 = await userService.GetUserAsync(user?.Identity?.Name);
-            Post post1 = new Post(args.Header, args.Body, user1);
+            Post post1 = new Post(args.Header, args.Body, user);
             await postService.AddPostAsync(post1);
             navMgr.NavigateTo("/");
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            errorLabel = $"Error: {e.Message}";
         }
     }
-
 
     private void OnCancelButtonClicked()
     {

@@ -28,14 +28,14 @@ public class AuthServiceImpl : IAuthService
 
         ClaimsPrincipal principal = CreateClaimsPrincipal(user); // convert user object to ClaimsPrincipal
 
-        OnAuthStateChanged?.Invoke(principal); // notify interested classes in the change of authentication state
+        OnAuthStateChanged.Invoke(principal); // notify interested classes in the change of authentication state
     }
 
     public async Task LogoutAsync()
     {
         await ClearUserFromCacheAsync(); // remove the user object from browser cache
         ClaimsPrincipal principal = CreateClaimsPrincipal(null); // create a new ClaimsPrincipal with nothing.
-        OnAuthStateChanged?.Invoke(principal); // notify about change in authentication state
+        OnAuthStateChanged.Invoke(principal); // notify about change in authentication state
     }
 
     public async Task<ClaimsPrincipal> GetAuthAsync() // this method is called by the authentication framework, whenever user credentials are reguired
@@ -79,7 +79,7 @@ public class AuthServiceImpl : IAuthService
         return new ClaimsPrincipal();
     }
 
-    private async Task CacheUserAsync(User? user)
+    private async Task CacheUserAsync(User user)
     {
         string serialisedData = JsonSerializer.Serialize(user);
         await jsRuntime.InvokeVoidAsync("sessionStorage.setItem", "currentUser", serialisedData);

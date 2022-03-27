@@ -9,13 +9,15 @@
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-10 col-xl-5 main box">
-                    <RadzenCard>
-                        <h2 class="mb-4">Please login</h2>
-                        <RadzenTemplateForm Context="buttonCtx" Data=@("SimpleLogin")>
-                            <RadzenLogin AllowRegister="false" AllowResetPassword="false" Login=@(OnLogin)/>
-                            <p>@errorLabel</p>
-                        </RadzenTemplateForm>
-                    </RadzenCard>
+                    <RadzenTemplateForm Context="buttonCtx" Data=@("SimpleLogin")>
+                        <RadzenCard>
+                            <div>
+                                <h2 class="mb-4">Please login</h2>
+                                <RadzenLogin AllowRegister="false" AllowResetPassword="false" Login=@(OnLogin)/>
+                                <p>@errorLabel</p>
+                            </div>
+                        </RadzenCard>
+                    </RadzenTemplateForm>
                 </div>
             </div>
         </div>
@@ -30,7 +32,7 @@
 
 
 @code {
-    private string? errorLabel;
+    private string errorLabel = string.Empty;
 
     private async Task OnLogin(LoginArgs args)
     {
