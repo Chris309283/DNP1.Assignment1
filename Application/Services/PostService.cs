@@ -28,9 +28,9 @@ public class PostService : IPostService
         return await postRepo.AddPostAsync(post);
     }
 
-    public void AddComment(Comment comment, string? postId)
+    public Task AddComment(Comment comment, string? postId)
     {
-        postRepo.AddComment(comment, postId);
+       return postRepo.AddComment(comment, postId);
     }
 
     public void AddVote(Vote vote, string? postId)

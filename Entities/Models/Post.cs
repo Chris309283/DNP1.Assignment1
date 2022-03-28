@@ -2,14 +2,14 @@
 
 public class Post
 {
-    public string? PostId { get; }
+    public string PostId { get; set; }
     public string Header { get; set; }
     public string Body { get; set; }
     public ICollection<Vote> Votes { get; set; }
     public ICollection<Comment> Comments { get; set; }
-    public User? WrittenBy { get; set; }
+    public User WrittenBy { get; set; }
 
-    public Post(string header, string body, User? writtenBy)
+    /*public Post(string header, string body, User writtenBy)
     {
         Header = header;
         Body = body;
@@ -18,12 +18,20 @@ public class Post
         Votes = new List<Vote>();
         Comments = new List<Comment>();
     }
+
+    public Post(string postId, string header, string body, ICollection<Vote> votes, ICollection<Comment> comments, User writtenBy)
+    {
+        PostId = postId;
+        Header = header;
+        Body = body;
+        Votes = votes;
+        Comments = comments;
+        WrittenBy = writtenBy;
+    }
+
     public Post()
     {
-        PostId = Guid.NewGuid().ToString("N");
-        Votes = new List<Vote>();
-        Comments = new List<Comment>();
-    }
+    }*/
 
     public int GetVoteValue()
     {

@@ -14,7 +14,7 @@
                 <h4 class="mt-2">@post?.Header</h4>
                 <div class="col-12">
                     <RadzenHtmlEditor @bind-Value="@post.Body" style="height: 50%; margin-bottom: 1rem;" Disabled="true">
-                        <RadzenHtmlEditorRemoveFormat/>
+                      @* <RadzenHtmlEditorRemoveFormat/> *@
                     </RadzenHtmlEditor>
                 </div>
                 <div class="row">
@@ -79,7 +79,7 @@
         post = await postService.GetPostAsync(PostId);
     }
 
-    private readonly Comment comment = new();
+    private Comment comment = new();
  
 
     void UpVote()
@@ -96,10 +96,10 @@
     {
         if (args.Body is "") return;
         var currentUser = await userService.GetUserAsync(user?.Identity?.Name);
-        var newComment = new Comment(args.Body, currentUser);
-        postService.AddComment(newComment, PostId);
-        navMgr.NavigateTo($"/PostPage/{PostId}");
-        comment.Body = string.Empty;
+        args.WrittenBy = currentUser;
+        await postService.AddComment(args, PostId);
+        
+    //  navMgr.NavigateTo($"/PostPage/{PostId}",true);
     }
 
 }

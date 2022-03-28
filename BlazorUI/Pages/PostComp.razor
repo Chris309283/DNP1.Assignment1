@@ -11,9 +11,7 @@
             <RadzenCard>
                 <h4 class="mt-2">@Post?.Header</h4>
                 <div class="col-12">
-                    <RadzenHtmlEditor @bind-Value="@Post.Body" style="height: 50%; margin-bottom: 1rem;" Disabled="true">
-                        <RadzenHtmlEditorRemoveFormat/>
-                    </RadzenHtmlEditor>
+                    <p>@(new MarkupString(Post.Body))</p>
                 </div>
                 <div class="row">
                     <div class="d-flex">

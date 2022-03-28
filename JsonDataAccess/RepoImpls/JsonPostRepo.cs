@@ -18,19 +18,21 @@ public class JsonPostRepo : IPostRepo
         return await Task.FromResult(jsonContext.Forum.Posts);
     }
 
-    public Task<Post?> GetPostAsync(string? postId)
+    public Task<Post?> GetPostAsync(string postId)
     {
-        return Task.FromResult(jsonContext.Forum.Posts.FirstOrDefault(x =>postId != null && postId.Equals(x.PostId)));
+        var testy = jsonContext.Forum.Posts.FirstOrDefault(x => x.PostId.Equals(postId));
+        return Task.FromResult(testy);
     }
 
     public async Task<Post> AddPostAsync(Post post)
-    {
+    { 
+        //todo set id here
         jsonContext.Forum.Posts.Add(post);
         await jsonContext.SaveChangesAsync();
         return post;
     }
 
-    public async void AddComment(Comment comment, string? postId)
+    public async Task AddComment(Comment comment, string? postId)
     {
         var post = await GetPostAsync(postId);
         post?.Comments.Add(comment);

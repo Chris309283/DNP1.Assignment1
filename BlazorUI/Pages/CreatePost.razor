@@ -23,7 +23,7 @@
                                 </div>
                             </div>
                             <div class="col-12 mt-3">
-                                <RadzenHtmlEditor PlaceHolder="Text (optional)" @bind-Value=@post.Body style="height: 500px; margin-bottom: 1rem;"/>
+                                <RadzenHtmlEditor PlaceHolder="Text (optional)" @bind-Value="@post.Body" style="height: 500px; margin-bottom: 1rem;"/>
                             </div>
                             <div class="justify-content-center d-flex">
                                 <div class="m-2">
@@ -50,10 +50,10 @@
 </AuthorizeView>
 
 @code {
-    readonly Post post = new();
+    Post post = new();
     private User user = new();
     private string errorLabel = string.Empty;
-    
+
     [CascadingParameter]
     public Task<AuthenticationState> AuthState { get; set; } = null!;
 
@@ -68,7 +68,15 @@
     {
         try
         {
-            Post post1 = new Post(args.Header, args.Body, user);
+            Post post1 = new Post()
+            {
+                Header = args.Header,
+                Body = args.Body,
+                WrittenBy = user,
+                Votes = new List<Vote>(),
+                Comments = new List<Comment>(),
+                PostId = Guid.NewGuid().ToString("N")
+            };
             await postService.AddPostAsync(post1);
             navMgr.NavigateTo("/");
         }

@@ -3,36 +3,17 @@
     {
       "UserName": "Test",
       "Password": "Test123"
-    },
-    {
-      "UserName": "vlad",
-      "Password": "Test123"
     }
   ],
   "Posts": [
     {
-      "PostId": "92a9fdc345f14ccfb46c29f2f56cdead",
+      "PostId": "95474733fcc34341972929850d643222",
       "Header": "test",
-      "Body": "test",
-      "Votes": [
-        {
-          "Value": 1,
-          "Voter": {
-            "UserName": "Test",
-            "Password": "Test123"
-          }
-        },
-        {
-          "Value": 1,
-          "Voter": {
-            "UserName": "vlad",
-            "Password": "Test123"
-          }
-        }
-      ],
+      "Body": "test1",
+      "Votes": [],
       "Comments": [
         {
-          "Body": "test",
+          "Body": "1",
           "Votes": [],
           "WrittenBy": {
             "UserName": "Test",
@@ -40,10 +21,90 @@
           }
         },
         {
-          "Body": "fgdgf",
+          "Body": "2",
           "Votes": [],
           "WrittenBy": {
-            "UserName": "vlad",
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "3",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "4",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "5",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "6",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "7",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "8",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "8",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "78",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "dfas",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
+            "Password": "Test123"
+          }
+        },
+        {
+          "Body": "dass",
+          "Votes": [],
+          "WrittenBy": {
+            "UserName": "Test",
             "Password": "Test123"
           }
         }
@@ -54,13 +115,35 @@
       }
     },
     {
-      "PostId": "176eebd6321c433f8b8ee3ae81f9eb71",
-      "Header": "dfasdf",
-      "Body": "dsfadf",
+      "PostId": "c3584993869040cfbfabd1124e277f8c",
+      "Header": null,
+      "Body": "zxcvxzc\u003Cfont size=\u00224\u0022\u003E\u003Cspan style=\u0022color: rgb(255, 0, 0);\u0022\u003Efdsafdafd\u003C/span\u003E\u003C/font\u003E",
       "Votes": [],
       "Comments": [],
       "WrittenBy": {
-        "UserName": "vlad",
+        "UserName": "Test",
+        "Password": "Test123"
+      }
+    },
+    {
+      "PostId": "48c99259640d43148943d0bd324bab0f",
+      "Header": "sdasds",
+      "Body": "sdada",
+      "Votes": [],
+      "Comments": [],
+      "WrittenBy": {
+        "UserName": "Test",
+        "Password": "Test123"
+      }
+    },
+    {
+      "PostId": "8bf0848a6b364f5b89d1bca284544f37",
+      "Header": "sdfsd",
+      "Body": "\u003Ch1\u003Efdsfd\u003Cbr\u003E\u003C/h1\u003E",
+      "Votes": [],
+      "Comments": [],
+      "WrittenBy": {
+        "UserName": "Test",
         "Password": "Test123"
       }
     }
