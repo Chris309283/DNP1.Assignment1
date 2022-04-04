@@ -18,10 +18,10 @@ public class JsonUserRepo : IUserRepo
         return Task.FromResult(jsonContext.Forum.Users);
     }
 
-    public Task<User?> GetUserAsync(string? username)
+    public async Task<User> GetUserAsync(string username)
     {
-        User? user = jsonContext.Forum.Users.FirstOrDefault(x => username.Equals(x.UserName));
-        return Task.FromResult(user);
+        User user = jsonContext.Forum.Users.FirstOrDefault(x => x.UserName.Equals(username));
+        return user;
     }
 
     public async Task<User> AddUserAsync(User user)
