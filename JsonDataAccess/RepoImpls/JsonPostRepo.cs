@@ -25,7 +25,7 @@ public class JsonPostRepo : IPostRepo
     }
 
     public async Task<Post> AddPostAsync(Post post)
-    { 
+    {
         //todo set id here
         jsonContext.Forum.Posts.Add(post);
         await jsonContext.SaveChangesAsync();
@@ -39,9 +39,9 @@ public class JsonPostRepo : IPostRepo
         await jsonContext.SaveChangesAsync();
     }
 
-    public async void AddVote(Vote vote, string? postId)
+    public async Task AddVote(Vote vote, string? postId)
     {
-        var post = GetPostAsync(postId).Result;
+        var post = await GetPostAsync(postId);
         post?.Votes.Add(vote);
         await jsonContext.SaveChangesAsync();
     }

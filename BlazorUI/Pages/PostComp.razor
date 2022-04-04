@@ -65,7 +65,7 @@
             var currentUser = await userService.GetUserAsync(user.Identity.Name);
             try
             {
-                postService.AddVote(new Vote(1, currentUser), Post.PostId);
+                await postService.AddVote(new Vote(1, currentUser), Post.PostId);
             }
             catch (Exception e)
             {
@@ -87,7 +87,7 @@
             var currentUser = await userService.GetUserAsync(user?.Identity?.Name);
             try
             {
-                postService.AddVote(new Vote(-1, currentUser), Post?.PostId);
+                await postService.AddVote(new Vote(-1, currentUser), Post?.PostId);
             }
             catch (Exception e)
             {
@@ -103,7 +103,7 @@
 
     private void GoToPost(string? postId)
     {
-        navMgr.NavigateTo($"/PostPage/{postId}");
+        navMgr.NavigateTo($"/Posts/{postId}");
     }
 
 }

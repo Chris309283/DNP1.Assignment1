@@ -8,31 +8,6 @@ public class Post
     public ICollection<Vote> Votes { get; set; }
     public ICollection<Comment> Comments { get; set; }
     public User WrittenBy { get; set; }
-
-    /*public Post(string header, string body, User writtenBy)
-    {
-        Header = header;
-        Body = body;
-        WrittenBy = writtenBy;
-        PostId = Guid.NewGuid().ToString("N");
-        Votes = new List<Vote>();
-        Comments = new List<Comment>();
-    }
-
-    public Post(string postId, string header, string body, ICollection<Vote> votes, ICollection<Comment> comments, User writtenBy)
-    {
-        PostId = postId;
-        Header = header;
-        Body = body;
-        Votes = votes;
-        Comments = comments;
-        WrittenBy = writtenBy;
-    }
-
-    public Post()
-    {
-    }*/
-
     public int GetVoteValue()
     {
         int value = 0;
@@ -40,7 +15,6 @@ public class Post
         {
             value += vote.Value;
         }
-
         return value;
     }
 }

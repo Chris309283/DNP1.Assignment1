@@ -8,5 +8,5 @@ public interface IPostService
     Task<Post?> GetPostAsync(string? id);
     Task<Post> AddPostAsync(Post post);
     Task AddComment(Comment comment, string? postId);
-    void AddVote(Vote vote, string? postId);
+    Task AddVote(Vote vote, string? postId);
 }

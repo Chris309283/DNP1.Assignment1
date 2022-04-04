@@ -1,4 +1,4 @@
-﻿@page "/PostPage/{postId}"
+﻿@page "/Posts/{postId}"
 @using Microsoft.AspNetCore.Components
 @using Entities.Models
 @using System.Security.Claims
@@ -96,7 +96,7 @@
         var currentUser = await userService.GetUserAsync(user?.Identity?.Name);
         args.WrittenBy = currentUser;
         await postService.AddComment(args, PostId);
-        navMgr.NavigateTo($"/PostPage/{PostId}", true);
+        navMgr.NavigateTo($"/Posts/{PostId}", true);
     }
 
 }

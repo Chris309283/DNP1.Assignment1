@@ -30,11 +30,11 @@ public class PostService : IPostService
 
     public Task AddComment(Comment comment, string? postId)
     {
-       return postRepo.AddComment(comment, postId);
+        return postRepo.AddComment(comment, postId);
     }
 
-    public void AddVote(Vote vote, string? postId)
+    public Task AddVote(Vote vote, string? postId)
     {
-        postRepo.AddVote(vote, postId);
+        return postRepo.AddVote(vote, postId);
     }
 }
