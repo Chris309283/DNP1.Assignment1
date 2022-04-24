@@ -2,8 +2,8 @@ using Application.Repositories;
 using Application.Services;
 using BlazorUI.Authentication;
 using Contracts.Services;
-using JsonDataAccess.Context;
-using JsonDataAccess.RepoImpls;
+using HttpClient.Posts;
+using HttpClient.Users;
 using Microsoft.AspNetCore.Components.Authorization;
 using Radzen;
 
@@ -12,13 +12,11 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddScoped<JsonContext>();
 builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthenticationStateProvider>();
 builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IUserRepo, JsonUserRepo>();
-builder.Services.AddScoped<IPostService, PostService>();
-builder.Services.AddScoped<IPostRepo, JsonPostRepo>();
+builder.Services.AddScoped<IUserService, UsersHttpClient>();
+builder.Services.AddScoped<IPostService, PostsHttpClient>();
+
 
 builder.Services.AddScoped<DialogService>();
 builder.Services.AddScoped<NotificationService>();

@@ -17,4 +17,9 @@ public class Post
         }
         return value;
     }
+
+    public override string ToString()
+    {
+        return PostId;
+    }
 }

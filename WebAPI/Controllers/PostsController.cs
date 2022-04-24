@@ -6,11 +6,11 @@ namespace WebAPI.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public class PostController : ControllerBase
+public class PostsController : ControllerBase
 {
     private IPostService postService;
 
-    public PostController(IPostService postService)
+    public PostsController(IPostService postService)
     {
         this.postService = postService;
     }
@@ -58,29 +58,13 @@ public class PostController : ControllerBase
         }
     }
 
-    /*[HttpDelete]
-    [Route("[id]")]
-    public async Task<ActionResult> DeletePostAsync([FromRoute] string id)
-    {
-        try
-        {
-            await postService.
-        }
-        catch (Exception e)
-        {
-            Console.WriteLine(e);
-            throw;
-        }
-    }*/
-
     [HttpPost]
-    [Route("{postId}")]
+    [Route("comment/{postId}")]
     public async Task<ActionResult> AddComment([FromBody] Comment comment,[FromRoute] string postId)
     {
         try
         {
             await postService.AddComment(comment, postId);
-           // return Created($"/comments/{postId}", comment);
             return Ok();
         }
         catch (Exception e)
@@ -90,14 +74,13 @@ public class PostController : ControllerBase
     }
 
     [HttpPost]
-    [Route("{postId}")]
+    [Route("vote/{postId}")]
     public async Task<ActionResult> AddVote([FromBody] Vote vote,[FromRoute] string postId)
     {
         try
         {
             await postService.AddVote(vote, postId);
-           // return Created($"/votes/{postId}", vote);
-           return Ok();
+            return Ok();
         }
         catch (Exception e)
         {

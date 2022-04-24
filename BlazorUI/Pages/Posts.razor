@@ -2,17 +2,17 @@
 @using Contracts.Services
 @inject IPostService postService
 
-<div>
+@*<div>
     <div>
         @foreach (var post in PostsCollection)
         {
             <PostComp Post="post"/>
         }
     </div>
-</div>
+</div>*@
 
 @code {
-    private ICollection<Post>? PostsCollection { get; set; }
+    private ICollection<Post> PostsCollection { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
