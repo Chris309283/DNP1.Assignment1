@@ -1,15 +1,22 @@
 ﻿@using Entities.Models
 @using Contracts.Services
 @inject IPostService postService
+@if (PostsCollection == null)
+{
+    <p>Loading</p>
+}
+else
+{
+   <div>
+       <div>
+           @foreach (var post in PostsCollection)
+           {
+               <PostComp Post="post"/>
+           }
+       </div>
+   </div> 
+}
 
-@*<div>
-    <div>
-        @foreach (var post in PostsCollection)
-        {
-            <PostComp Post="post"/>
-        }
-    </div>
-</div>*@
 
 @code {
     private ICollection<Post> PostsCollection { get; set; }
