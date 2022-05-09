@@ -1,7 +1,10 @@
-﻿namespace Entities.Models;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Entities.Models;
 
 public class Post
 {
+    [Key]
     public string PostId { get; set; }
     public string Header { get; set; }
     public string Body { get; set; }

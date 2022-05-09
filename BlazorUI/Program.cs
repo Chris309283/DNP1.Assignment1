@@ -1,5 +1,3 @@
-using Application.Repositories;
-using Application.Services;
 using BlazorUI.Authentication;
 using Contracts.Services;
 using HttpClient.Posts;
